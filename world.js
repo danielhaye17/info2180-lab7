@@ -10,20 +10,6 @@ window.onload =function() {
 	};
 };
 
-
-
-function getCountry() {
-	
-	if(all.checked ) 
-		all.setAttribute('value','true');
-
-	var url = "world.php?country="+country.value+"&all="+all.value;
-
-	httprequest.onreadystatechange = printResults;
-	httprequest.open("GET", url);
-	httprequest.send();
-}
-
 function ajaxFunction() {
 
 	if (window.XMLHttpRequest) 
@@ -32,6 +18,28 @@ function ajaxFunction() {
 		httprequest =new ActiveXObject('Microsoft.XMLHTTP');
 }
 
+function getCountry() {
+    var url = "";
+	if(all.checked ) {
+        url = "world.php?all=true";
+    }
+	else if(country == ""){
+        document.getElementById("result").innerHTML = "Enter a text";
+    }
+    else
+    {
+        url = "world.php?country="+document.getElementById("country").value;
+    }
+
+	
+
+	httprequest.onreadystatechange = printResults;
+	httprequest.open("GET", url);
+	httprequest.send();
+}
+
+
+
 function printResults() {
 	
 	var result =document.getElementById('result');
@@ -39,16 +47,8 @@ function printResults() {
 	if (httprequest.readyState === XMLHttpRequest.DONE) {
 		if (httprequest.status === 200) {
 		 	country_info =httprequest.responseText;
-
-		 	if (country_info[8]!=='<') {
-		 		alert(country_info);
-		 		result.innerHTML +='<h2> Result </h2>' +country_info;
-			}
-			else {
-				alert(country_info);
-				 var countryinfo ='no result found';
-				result.innerHTML ='<h2> Result </h2>' +countryinfo;
-			}
+             result.innerHTML = country_info;
+		 	
 		}
 	}
 }
