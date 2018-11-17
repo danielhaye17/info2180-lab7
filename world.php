@@ -12,7 +12,7 @@ $all =$_GET['all'];
 
 
 
-if (isset($all)) {
+if ($all == "true") {
     $stmt = $conn->query("SELECT * FROM countries");
   
 }
